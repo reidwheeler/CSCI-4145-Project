@@ -10,7 +10,6 @@ AdminUserName VARCHAR(255) NOT NULL
 #company table is to store all employees' information 
 CREATE TABLE IF NOT EXISTS csci4145project.Company(
 CompanyCode VARCHAR(255) NOT NULL,
-CompanyName VARCHAR(255) NOT NULL,
 UserName VARCHAR(255) PRIMARY KEY NOT NULL,
 UserPassword VARCHAR(255) NOT NULL,
 foreign key (CompanyCode) references Customer(CompanyCode)
