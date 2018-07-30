@@ -19,13 +19,64 @@
     <h3>Password</h3>
     <input type="password" id="pwd">
     <h3>Confirm Password</h3>
-    <input type="password" id="pwd">
+    <input type="password" id="cpwd">
      
     <h3>Company Code</h3>
     <input id="code">
   
     <h3></h3>
     <button type="submit" onclick="register()"> Register</button>
- 
+    
+        
+    <script>
+    function register(){
+        var fn, ln, email, un, pwd, cpwd, code;
+        fn = document.getElementById("fn").value;
+        ln = document.getElementById("ln").value;
+        email = document.getElementById("email").value;
+        un = document.getElementById("un").value;
+        pwd = document.getElementById("pwd").value;
+        cpwd = document.getElementById("cpwd").value;
+        code = document.getElementById("code").value;
+        
+        
+        var done=0;
+        while(done==0){
+        //connect to db 
+        
+        
+        //check if company code is in db, set cdres to 1 if code is valid, otherwise 0
+        var cdres;
+        //check company code first
+        
+        
+        
+        if(cdres==0){
+            alert("Company Code is invalid");
+        }
+        esle{
+            //check usernmae
+            var unres;
+            //check all usaernames with this company code, set unres to 1 if no such username, otherwise 0
+            
+            //set unres here
+            
+            if(unres==0){
+                alert("You cannot use this username, please try another one");
+            }else{
+                //check passward and confirm passward
+                if(pwd == cpwd){
+                    //store the information of the user into db
+                    done=1;
+                }else{
+                    alert("Please check the confirm passward, it should equal to the passward you entered above");
+                }
+            }
+        }
+        }
+                
+    }
+        
+    </script>
     </body>
     </html>
