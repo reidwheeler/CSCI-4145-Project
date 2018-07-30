@@ -27,6 +27,31 @@
       </form>
    
     <h3></h3>
+        
+        
+    <script>
+    function myFunction(){
+        var name, pwd, code;
+        name = document.getElementById("name").value;
+        pwd = document.getElementById("pwd").value;
+        code = document.getElementById("code").value;
+        //connect to db and check if the current user is valid
+        
+        
+        
+        
+        
+        //after checking current user from db, set the result to 1 if the user is valid, otherwise set to 0
+        var result;
+        if(result==0){
+            alert("Please check your user name, passward and company code or click Create account button to create one");
+            return false;
+        }
+        else{
+            window.location.href="http://homepage";
+        }
+    }
+    </script>
   
     </body>
     </html>
