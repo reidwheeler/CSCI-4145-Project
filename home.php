@@ -46,21 +46,45 @@
 			echo "<th>From</th>";
 			echo "<th>Assignees</th>";
 			echo "<th>Task</th>";
+			echo "<th>Due Date</th>";
 			echo "<th></th>";
 			echo "</tr>";
 			
 			if ($result->num_rows >= 1){
 				while($row = $result->fetch_assoc()) {
 					$id = $row['TaskID'];
+					$idURL = urlencode($id);
+					
 					$task = $row['Title'];
+					$taskURL  = urlencode($task);
+					
 					$from = $row['FromUser'];
+					$fromURL  = urlencode($from);
+					
 					$to = $row['ToUser'];
+					$toURL  = urlencode($to);
+					
+					$details = $row['Detail'];
+					$detailsURL  = urlencode($details);
+					
+					$createTime = $row['CreateTime'];
+					$createTimeURL  = urlencode($createTime);
+					
+					$deadline = $row['Deadline'];
+					$deadlineURL  = urlencode($deadline);
+					
+					$pic = $row['PicturePath'];
+					$picURL  = urlencode($pic);
+					
 					echo "<tr>";
 					echo "<td>$id</td>";
 					echo "<td>$from</td>";
 					echo "<td>$to</td>";
 					echo "<td>$task</td>";
-					echo "<td>+</td>";
+					echo "<td>$deadline</td>";
+					$url = "home.php?taskID=$idURL&taskName=$taskURL&from=$fromURL&to=$toURL&details=$detailsURL&createTime=$createTimeURL&deadline=$deadlineURL&pic=$picURL";
+					echo "<td><a href=$url>Details</a></td>";			
+					
 					echo "</tr>";
 				}
 			}
@@ -93,9 +117,6 @@
 	
 	if (isset($_POST['addTask'])){
 		session_start();
-		/*
-		
-		Not sure if we need to set these again?
 		
 		$_SESSION['username'] = $user;
 		$_SESSION['code'] = $code;
@@ -103,7 +124,7 @@
 		$_SESSION['lastName'] = $lastName;
 		$_SESSION['email'] = $email;
 		$_SESSION['companyName'] = $companyName;
-		*/		
+			
 		if (mysql_error()) {
 			die(mysql_error());
 		}
@@ -122,11 +143,33 @@
 	   header('Refresh: 2; URL = index.php');
 	}
 	
-	function getTaskData()
+	if (isset($_GET['taskID']) 
+		&& isset($_GET['taskName'])
+		&& isset($_GET['from'])
+		&& isset($_GET['to'])
+		&& isset($_GET['details'])
+		&& isset($_GET['createTime'])
+		&& isset($_GET['deadline'])
+		&& isset($_GET['pic'])
+		)
 	{
-		$sql = "select * from Task where FromUser='$user' OR ToUser='$user'";
-		$result = $conn->query($sql);				
-		return $result;
+		$_SESSION['username'] = $user;
+		$_SESSION['code'] = $code;
+		$_SESSION['firstName'] = $firstName;
+		$_SESSION['lastName'] = $lastName;
+		$_SESSION['email'] = $email;
+		$_SESSION['companyName'] = $companyName;
+		$_SESSION['taskID'] = $_GET['taskID'];
+		$_SESSION['taskName'] = $_GET['taskName'];
+		$_SESSION['fromUser'] = $_GET['from'];
+		$_SESSION['toUser'] = $_GET['to'];
+		$_SESSION['details'] = $_GET['details'];
+		$_SESSION['createTime'] = $_GET['createTime'];
+		$_SESSION['deadline'] = $_GET['deadline'];
+		$_SESSION['pic'] = $_GET['pic'];
+		
+		header("location: EditTodo.php");
+		
 	}
 	
 	?>
