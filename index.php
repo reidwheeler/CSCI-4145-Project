@@ -1,5 +1,11 @@
 <html>
 
+
+<?php
+   ob_start();
+   session_start();
+?>
+
 <?php require_once 'dbConfig.php'; ?>
 
     <head>
@@ -10,7 +16,7 @@
   
     <h2>Welcome to ToDo</h2>
 	
-	<form method="post">
+	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 		<h3>Username</h3>
 		<input id="name" name="name">
 	  
@@ -29,38 +35,66 @@
     <h3>New user?</h3>
     <form action="http://">
         <input type="submit" value="Create account" name="register" />
-      </form>
+    </form>
    
     <h3></h3>
   
 	<?php
 	
-	if (isset($_POST['login']) && !empty($_POST['name']) 
+	if ($_SERVER["REQUEST_METHOD"] == "POST"
+		   && isset($_POST['login']) 
+		   && !empty($_POST['name']) 
            && !empty($_POST['pwd']) 
-		   && !empty($_POST['code'])) {
+		   && !empty($_POST['code'])) {					
 				
-				$user = $_POST['name'];
-			    $pass = $_POST['pwd'];
-				$code = $_POST['code'];
+			$user = $_POST['name'];
+			$pass = $_POST['pwd'];
+			$code = $_POST['code'];
 				
-				$sql = "select * from Company where UserName='$user' AND UserPassword='$pass' AND CompanyCode='$code'";
+			$sql = "select * from Company where UserName='$user' AND UserPassword='$pass' AND CompanyCode='$code'";
 				            
+			$result = $conn->query($sql);					
+					
+			if ($result->num_rows == 1) { //login successfull
+				
+				$sql = "SELECT FirstName FROM Employee WHERE username='$user' limit 1";
 				$result = $conn->query($sql);
-				
-				
-					
-				if ($result->num_rows == 1) { //login successfull
-				
-					
+				$row = $result->fetch_assoc();
+				$firstName = $row['FirstName'];
+						
+						
+				$sql = "SELECT LastName FROM Employee WHERE username='$user' limit 1";
+				$result = $conn->query($sql);
+				$row = $result->fetch_assoc();
+				$lastName = $row['LastName'];
+						
+						
+				$sql = "SELECT Email FROM Employee WHERE username='$user' limit 1";
+				$result = $conn->query($sql);
+				$row = $result->fetch_assoc();
+				$email = $row['Email'];
 
-					session_start();
-					$_SESSION['username'] = $user;
-					$_SESSION['code'] = $code;
-					header("location: home.php");	
-               
-				}else {
-					echo 'Invalid Username or Password';
+							
+				$sql = "select CompanyName from Customer where CompanyCode='$code' limit 1";	
+				$result = $conn->query($sql);
+				$row = $result->fetch_assoc();
+				$companyName = $row['CompanyName'];
+						
+				session_start();
+				$_SESSION['username'] = $user;
+				$_SESSION['code'] = $code;
+				$_SESSION['firstName'] = $firstName;
+				$_SESSION['lastName'] = $lastName;
+				$_SESSION['email'] = $email;
+				$_SESSION['companyName'] = $companyName;
+						
+				if (mysql_error()) {
+					die(mysql_error());
 				}
+				header("location: home.php");	
+			}else {
+				echo 'Invalid Username or Password';
+			}
 		   
 	}
 	

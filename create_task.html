@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+
+<?php
+// Initialize the session
+session_start();
+if(!isset($_SESSION['username']) || empty($_SESSION['username'])
+	|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
+	|| empty($_SESSION['code']) || !isset($_SESSION['code'])
+	|| empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
+	|| empty($_SESSION['email']) || !isset($_SESSION['email'])
+	|| empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
+  header("location: index.php");
+  exit;
+}
+?>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
