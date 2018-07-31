@@ -96,16 +96,10 @@
 				echo 'Invalid Username or Password';
 			}
 		   
-	}
-	
-				
-				
-				
+	}			
 				
 	
-	?>
-
-  
+	?>  
   
     </body>
 </html>
