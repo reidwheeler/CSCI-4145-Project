@@ -8,7 +8,9 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     || empty($_SESSION['code']) || !isset($_SESSION['code'])
     || empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
     || empty($_SESSION['email']) || !isset($_SESSION['email'])
-    || empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
+    || empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])
+    || empty($_SESSION['isAdmin']) || !isset($_SESSION['isAdmin'])
+    || $_SESSION['isAdmin'] == false){
     header("location: index.php");
     exit;
 }
@@ -78,7 +80,6 @@ require_once 'dbConfig.php';
 </table>
 <br>
 </div>
-<input type="button" value="Delete Selected User(s)" onclick="deleteUsers()">
 <br>
 
 <?php
