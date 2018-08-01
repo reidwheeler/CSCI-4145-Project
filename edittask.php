@@ -16,6 +16,7 @@
 	require_once 'dbConfig.php'; 
 ?>
 
+
 <html>
 
 <?php
@@ -35,20 +36,20 @@
     <h1>Edit Task</h1><br>
     <h3>Title:</h3>
     <!--show the current title, description and due date for this task in the type field-->
-    <input type="text" name="title" id="title" value=<?php echo htmlspecialchars($_SESSION['taskName']; )?>>
+    <input type="text" name="title" id="title" value= $_SESSION['taskName']>
     <br><br>
     <h3>Description:</h3>
-    <textarea rows="4" cols="50" name="description" id="description" value=<?php echo htmlspecialchars($_SESSION['details']); ?>></textarea>
+    <textarea rows="4" cols="50" name="description" id="description" value= $_SESSION['details']></textarea>
     <br><br>
     <h3>Due Date:</h3>
-    <input type="datetime-local" name="dueDate" id="dueDate" value=<?php echo htmlspecialchars($_SESSION['deadline'])?> min="2018-07-31T01:59" max="2118-12-31T23:59">
+    <input type="datetime-local" name="dueDate" id="dueDate" value= $_SESSION['deadline'] min="2018-07-31T01:59" max="2118-12-31T23:59">
     <br><br>
     
 
 
     <h3>Assignees (optional):</h3><br>
     <?php
-    $ccode = htmlspecialchars($_SESSION['code']);
+    $ccode = $_SESSION['code'];
     $sql = "SELECT * FROM Company WHERE CompanyCode = '$ccode'";
     $result = $conn->query($sql);
     
@@ -81,8 +82,7 @@
     Picture (optional):<br>
     <input type="file" name="image">
     <br><br>
-    <input type="submit" name = "upload" value="Upload">
-    <br><br>
+
     <input type="submit" name="ctask" value="Done">
 
 
@@ -107,17 +107,10 @@
         $ctime = $_SESSION['createTime'];
         $tskid = $_SESSION['taskID'];
         $dtime = $_POST['dueDate'];
-        $image=$_SESSION['pic'];
+        $image = $_SESSION['pic'];
         //check for image
-        if(isset($_POST['upload'])){
-            if(getimagesize($FILES['image']['tp_name'])== FALSE){
-                echo "Please select an image";
-            }else{
-                $image = addslashes($_FILES['image']['tp_name']);
-                $name = addslashes($_FILES['image']['name']);
-                $image = file_get_contents($image);
-                $image = base64_encode($image);
-            }
+        if(isset($_POST['image'])){
+             $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
         }
 
         //remove all record given the task id
