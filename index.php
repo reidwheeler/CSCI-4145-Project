@@ -33,13 +33,17 @@
  
 
     <h3>New user?</h3>
-    <form action="http://">
-        <input type="submit" value="Create account" name="register" />
+    <form method="post">
+        <button type="submit" name="register">Register</button>
     </form>
    
     <h3></h3>
   
 	<?php
+	
+	if(isset($_POST['register'])){
+		header('location: register.php');
+	}
 	
 	if ($_SERVER["REQUEST_METHOD"] == "POST"
 		   && isset($_POST['login']) 
@@ -94,7 +98,7 @@
 				header("location: home.php");	
 			}else {
 				echo 'Invalid Username or Password';
-			}
+			}	
 		   
 	}			
 	
