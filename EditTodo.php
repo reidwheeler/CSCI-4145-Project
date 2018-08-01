@@ -20,7 +20,18 @@
 	  header("location: home.php");
 	  exit;
 	}
-
+	/*
+	echo $_SESSION['username'];
+	echo $_SESSION['firstName'];
+	echo $_SESSION['lastName'];
+	echo $_SESSION['taskID'];
+	echo $_SESSION['taskName'];
+	echo $_SESSION['fromUser'];
+	echo $_SESSION['toUser'];
+	echo $_SESSION['details'];
+	echo $_SESSION['createTime'];
+	echo $_SESSION['deadline'];
+	*/
 	require_once 'dbConfig.php'; 
 ?>
 
