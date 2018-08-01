@@ -44,7 +44,10 @@ require_once 'dbConfig.php';
         $sql = "select UserInfo.UserName, Employee.FirstName, Employee.LastName
             from UserInfo 
             INNER JOIN Employee ON UserInfo.UserName=Employee.UserName 
-            where UserInfo.CompanyCode='$code' && Employee.companyCode ='$code'";
+            WHERE 
+              UserInfo.CompanyCode = '$code' 
+              && Employee.companyCode = '$code'
+              && UserInfo.isAdmin = 'False'"; // don't print admins
         $result = $conn->query($sql);
         if (!$result) {
             echo "nahh";
