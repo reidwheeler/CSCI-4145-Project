@@ -110,14 +110,7 @@
         $image = $_SESSION['pic'];
         //check for image
         if(isset($_POST['image'])){
-            if(getimagesize($FILES['image']['tp_name'])== FALSE){
-                echo "Please select an image";
-            }else{
-                $image = addslashes($_FILES['image']['tp_name']);
-                $name = addslashes($_FILES['image']['name']);
-                $image = file_get_contents($image);
-                $image = base64_encode($image);
-            }
+             $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
         }
 
         //remove all record given the task id
