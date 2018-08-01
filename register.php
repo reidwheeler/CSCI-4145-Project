@@ -51,18 +51,54 @@
             $confpass = $_POST['cpwd'];
             $code = $_POST['code'];
 
-            $sql = "INSERT INTO Employee(LastName, FirstName, UserName, UserPassword, Email)
-                    VALUES ('$lastname', '$firstname', '$username', '$pass', '$email')";
-            $sql2 = "INSERT INTO Company(CompanyCode, UserName, UserPassword)
-                     VALUES ('$code', '$username', '$pass')";
-
-            $result = $conn->query($sql);
-            $result = $conn->query($sql2);
-
-            header("location: index.php");
-            }else {
-                echo 'Invalid Username or Password';
+            if($pass != $confpass){
+                echo "<script type='text/javascript'>alert('Passwords do not match');</script>";
             }
+            elseif(existingUsername($username,$conn)){
+                echo "<script type='text/javascript'>alert('Username is already taken');</script>";
+            }
+            elseif(!existingCode($code,$conn)){
+                echo "<script type='text/javascript'>alert('Company code does not exist');</script>";
+            }
+            else {
+
+                $sql = "INSERT INTO Employee(CompanyCode, LastName, FirstName, UserName, Email)
+                        VALUES ('$code', '$lastname', '$firstname', '$username', '$email')";
+                $sql2 = "INSERT INTO UserInfo(CompanyCode, UserName, UserPassword)
+                         VALUES ('$code', '$username', '$pass')";
+
+                $result = $conn->query($sql);
+                $result = $conn->query($sql2);
+
+                header("location: index.php");
+            }
+        }else {
+                echo 'Invalid Username or Password';
+        }
+
+        function existingUsername($username, $conn) {
+            $sql = "SELECT 1 FROM Employee WHERE `UserName` = '$username'";
+            $result = $conn->query($sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        function existingCode($code, $conn) {
+            $sql = "SELECT 1 FROM Company WHERE `CompanyCode` = '$code'";
+            $result = $conn->query($sql);
+
+            if ($result && mysqli_num_rows($result) > 0) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
         ?>
     </body>
 </html>
