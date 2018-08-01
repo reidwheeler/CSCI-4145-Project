@@ -29,11 +29,21 @@
     <h3>Due Date:</h3>
 
     <!--show due date  ps: still cannot show the due date-->
-    <input type="datetime-local" name="dueDate" id="dueDate" 
-            value='<?php 
-                    $dline= $_SESSION['deadline'];
-                    echo htmlspecialchars($dline); ?>'>
+    
+    
+    <input type="datetime-local" name="dueDate" id="dueDate"
+     value="<?php 
+     $tid = $_SESSION['taskID'];
+     $sqq="SELECT * FROM Task WHERE TaskID = '$tid'";
+     $tm=$conn->query($sqq);
+    while($roww=$tm->fetch_array()){
+        $tt=str_replace(" ", "T" ,$roww[6]);
+    }echo htmlspecialchars($tt)?>">
+                    
+
     <br><br>
+
+    
     
 
 
@@ -66,7 +76,12 @@
         }
         echo "</table>";
     }
-  
+    
+    $tm=$conn->query("SELECT * FROM Task WHERE TaskID='$tmpid'");
+    while($roww=$tm->fetch_array()){
+        $tt=(str_replace(" ", "T" ,$roww[6]));
+    }
+    
     ?>
 
     <br><br>
@@ -74,6 +89,13 @@
     <input type="file" name="image">
     <br><br>
 
+    <?php
+
+    echo '<img height="300" width="300" src="data:image;base64,'.$_SESSION['pic'].' "> ';
+
+    ?>
+
+    <br><br>
     <input type="submit" name="ctask" value="Done">
 
 
