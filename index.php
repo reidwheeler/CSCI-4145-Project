@@ -88,8 +88,8 @@
 				$_SESSION['email'] = $email;
 				$_SESSION['companyName'] = $companyName;
 						
-				if (mysql_error()) {
-					die(mysql_error());
+				if (mysqli_error($_SESSION)) {
+					die(mysqli_error($_SESSION));
 				}
 				header("location: home.php");	
 			}else {
