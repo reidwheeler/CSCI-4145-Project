@@ -11,7 +11,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     || empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])
     || empty($_SESSION['isAdmin']) || !isset($_SESSION['isAdmin'])
     || $_SESSION['isAdmin'] == false){
-    header("location: index.php");
+    header("location: home.php");
     exit;
 }
 
