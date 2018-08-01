@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 
 <?php
-// Initialize the session
-session_start();
-if(!isset($_SESSION['username']) || empty($_SESSION['username'])
-	|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
-	|| empty($_SESSION['code']) || !isset($_SESSION['code'])
-	|| empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
-	|| empty($_SESSION['email']) || !isset($_SESSION['email'])
-	|| empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
-  header("location: home.php");
-  exit;
-}
+	// Initialize the session
+	session_start();
+	if(!isset($_SESSION['username']) || empty($_SESSION['username'])
+		|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
+		|| empty($_SESSION['code']) || !isset($_SESSION['code'])
+		|| empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
+		|| empty($_SESSION['email']) || !isset($_SESSION['email'])
+		|| empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
+	  header("location: index.php");
+	  exit;
+	}
+	require_once 'dbConfig.php'; 
 ?>
-
 
 <html>
 
@@ -44,7 +44,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     
     <h3>Assignees (optional):</h3><br>
     <?php
-    $ccode = $_SESSION['code'];
+    $ccode = htmlspecialchars($_SESSION['code']);
     $sql = "SELECT * FROM Company WHERE CompanyCode = '$ccode'";
     $result = $conn->query($sql);
 
@@ -68,6 +68,8 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     <br><br>
     <h3>Picture (optional):</h3><br>
     <input type="file" name="image">
+    <br><br>
+    <input type="submit" name = "upload" value="Upload">
     <br><br>
     <input type="submit" name="ctask" value="Create Task">
 
@@ -107,8 +109,15 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
         }
         $image=null;
         //check for image
-        if(isset($_POST['image'])){
-             $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+        if(isset($_POST['upload'])){
+            if(getimagesize($FILES['image']['tp_name'])== FALSE){
+                echo "Please select an image";
+            }else{
+                $image = addslashes($_FILES['image']['tp_name']);
+                $name = addslashes($_FILES['image']['name']);
+                $image = file_get_contents($image);
+                $image = base64_encode($image);
+            }
         }
 
         //for all users who are assgined, insert the data into db
@@ -127,6 +136,8 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
 
         //return to home page
         header("location: home.php");
+    }else{
+        echo "Please enter the title";
     }
 	?>
 
