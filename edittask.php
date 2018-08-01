@@ -1,20 +1,5 @@
 <!DOCTYPE html>
 
-<?php
-	// Initialize the session
-	session_start();
-	if(!isset($_SESSION['username']) || empty($_SESSION['username'])
-		|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
-		|| empty($_SESSION['code']) || !isset($_SESSION['code'])
-		|| empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
-		|| empty($_SESSION['email']) || !isset($_SESSION['email'])
-		|| empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
-	  header("location: index.php");
-	  exit;
-    }
-    
-	require_once 'dbConfig.php'; 
-?>
 
 
 <html>
@@ -36,13 +21,18 @@
     <h1>Edit Task</h1><br>
     <h3>Title:</h3>
     <!--show the current title, description and due date for this task in the type field-->
-    <input type="text" name="title" id="title" value= $_SESSION['taskName']>
+    <input type="text" name="title" id="title" value= "<?php echo htmlspecialchars($_SESSION['taskName']); ?>" />
     <br><br>
     <h3>Description:</h3>
-    <textarea rows="4" cols="50" name="description" id="description" value= $_SESSION['details']></textarea>
+    <textarea rows="4" cols="50" name="description" id="description" ><?php echo htmlspecialchars($_SESSION['details']); ?></textarea>
     <br><br>
     <h3>Due Date:</h3>
-    <input type="datetime-local" name="dueDate" id="dueDate" value= $_SESSION['deadline'] min="2018-07-31T01:59" max="2118-12-31T23:59">
+
+    <!--show due date  ps: still cannot show the due date-->
+    <input type="datetime-local" name="dueDate" id="dueDate" 
+            value='<?php 
+                    $dline= $_SESSION['deadline'];
+                    echo htmlspecialchars($dline); ?>'>
     <br><br>
     
 
@@ -50,7 +40,7 @@
     <h3>Assignees (optional):</h3><br>
     <?php
     $ccode = $_SESSION['code'];
-    $sql = "SELECT * FROM Company WHERE CompanyCode = '$ccode'";
+    $sql = "SELECT * FROM Employee WHERE CompanyCode = '$ccode'";
     $result = $conn->query($sql);
     
     if ($result->num_rows >= 1){
@@ -76,10 +66,11 @@
         }
         echo "</table>";
     }
+  
     ?>
 
     <br><br>
-    Picture (optional):<br>
+    <h3>Picture (optional):</h3><br>
     <input type="file" name="image">
     <br><br>
 
@@ -110,7 +101,8 @@
         $image = $_SESSION['pic'];
         //check for image
         if(isset($_POST['image'])){
-             $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+            $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+
         }
 
         //remove all record given the task id
@@ -133,8 +125,6 @@
 
         //return to home page
         header("location: home.php");
-    }else{
-        echo "Please enter the title";
     }
 	?>
 

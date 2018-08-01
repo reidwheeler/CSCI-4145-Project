@@ -33,8 +33,9 @@
  
 
     <h3>New user?</h3>
-    <form method="post">
-        <button type="submit" name="create">Create Account</button>
+
+    <form action="register.php">
+        <input type="submit" value="Create account" name="register" />
     </form>
    
     <h3></h3>
@@ -83,6 +84,11 @@
 				$result = $conn->query($sql);
 				$row = $result->fetch_assoc();
 				$companyName = $row['CompanyName'];
+
+                $sql = "select isAdmin from UserInfo WHERE username='$user' limit 1";
+                $result = $conn->query($sql);
+                $row = $result->fetch_assoc();
+                $isAdmin = $row['isAdmin'];
 						
 				session_start();
 				$_SESSION['username'] = $user;
@@ -91,6 +97,7 @@
 				$_SESSION['lastName'] = $lastName;
 				$_SESSION['email'] = $email;
 				$_SESSION['companyName'] = $companyName;
+				$_SESSION['isAdmin'] = $isAdmin;
 						
 				if (mysqli_error($_SESSION)) {
 					die(mysqli_error($_SESSION));
@@ -98,8 +105,8 @@
 				header("location: home.php");	
 			}else {
 				echo 'Invalid Username or Password';
-			}	
-		   
+
+			}
 	}			
 	
 	?>

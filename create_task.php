@@ -1,19 +1,5 @@
 <!DOCTYPE html>
 
-<?php
-// Initialize the session
-session_start();
-if(!isset($_SESSION['username']) || empty($_SESSION['username'])
-	|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
-	|| empty($_SESSION['code']) || !isset($_SESSION['code'])
-	|| empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
-	|| empty($_SESSION['email']) || !isset($_SESSION['email'])
-	|| empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
-  header("location: home.php");
-  exit;
-}
-?>
-
 
 <html>
 
@@ -45,7 +31,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     <h3>Assignees (optional):</h3><br>
     <?php
     $ccode = $_SESSION['code'];
-    $sql = "SELECT * FROM Company WHERE CompanyCode = '$ccode'";
+    $sql = "SELECT * FROM Employee WHERE CompanyCode = '$ccode'";
     $result = $conn->query($sql);
 
     if ($result->num_rows >= 1){
@@ -108,7 +94,7 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
         $image=null;
         //check for image
         if(isset($_POST['image'])){
-             $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+            $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
         }
 
         //for all users who are assgined, insert the data into db

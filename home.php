@@ -128,6 +128,12 @@
 		<button name="logout">Logout</button>
 	</form>
 
+    <?php
+        if($_SESSION['isAdmin'] == true){
+            $url = "DeleteUser.php?";
+            echo "<a href=$url><input type=\"button\" value=\"Go To 'Delete Users' Screen\"></a>";
+        }
+    ?>
 	
 	<?php
 	

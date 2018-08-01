@@ -8,8 +8,10 @@ if(!isset($_SESSION['username']) || empty($_SESSION['username'])
     || empty($_SESSION['code']) || !isset($_SESSION['code'])
     || empty($_SESSION['firstName']) || !isset($_SESSION['firstName'])
     || empty($_SESSION['email']) || !isset($_SESSION['email'])
-    || empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])){
-    header("location: index.php");
+    || empty($_SESSION['companyName']) || !isset($_SESSION['companyName'])
+    || empty($_SESSION['isAdmin']) || !isset($_SESSION['isAdmin'])
+    || $_SESSION['isAdmin'] == false){
+    header("location: home.php");
     exit;
 }
 
@@ -44,7 +46,10 @@ require_once 'dbConfig.php';
         $sql = "select UserInfo.UserName, Employee.FirstName, Employee.LastName
             from UserInfo 
             INNER JOIN Employee ON UserInfo.UserName=Employee.UserName 
-            where UserInfo.CompanyCode='$code' && Employee.companyCode ='$code'";
+            WHERE 
+              UserInfo.CompanyCode = '$code' 
+              && Employee.companyCode = '$code'
+              && UserInfo.isAdmin = 'False'"; // don't print admins
         $result = $conn->query($sql);
         if (!$result) {
             echo "nahh";
@@ -75,7 +80,6 @@ require_once 'dbConfig.php';
 </table>
 <br>
 </div>
-<input type="button" value="Delete Selected User(s)" onclick="deleteUsers()">
 <br>
 
 <?php
