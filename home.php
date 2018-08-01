@@ -192,7 +192,7 @@
 		$_SESSION['deadline'] = urldecode($_GET['deadline']);
 		$_SESSION['pic'] = urldecode($_GET['pic']);
 		
-		header("location: EditTodo.php");
+		header("location: edittask.php");
 		
 	}
 	
