@@ -51,7 +51,7 @@
 			$pass = $_POST['pwd'];
 			$code = $_POST['code'];
 				
-			$sql = "select * from Company where UserName='$user' AND UserPassword='$pass' AND CompanyCode='$code'";
+			$sql = "select * from UserInfo where UserName='$user' AND UserPassword='$pass' AND CompanyCode='$code'";
 				            
 			$result = $conn->query($sql);					
 					
@@ -75,7 +75,7 @@
 				$email = $row['Email'];
 
 							
-				$sql = "select CompanyName from Customer where CompanyCode='$code' limit 1";	
+				$sql = "select CompanyName from Company where CompanyCode='$code' limit 1";	
 				$result = $conn->query($sql);
 				$row = $result->fetch_assoc();
 				$companyName = $row['CompanyName'];

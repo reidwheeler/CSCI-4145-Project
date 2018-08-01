@@ -20,6 +20,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
+	
+	<style>
+	.onTime {
+		color: black;
+	}
+	
+	.overdue {
+		color: red;
+	}
+	</style>
+	
 </head>
 <body>
     <h3>Company <?php echo htmlspecialchars($_SESSION['companyName']); ?></h3>
@@ -52,6 +63,9 @@
 			
 			if ($result->num_rows >= 1){
 				while($row = $result->fetch_assoc()) {
+					
+					$class="onTime";
+					
 					$id = $row['TaskID'];
 					$idURL = urlencode($id);
 					
@@ -71,19 +85,29 @@
 					$createTimeURL  = urlencode($createTime);
 					
 					$deadline = $row['Deadline'];
+					$deadline = strtotime($deadline);
+					
+					$time = time();
+					$isOverdue = $time - $deadline;
+					
+					if($isOverdue>=0){
+						$class = "overdue";
+					}
+					
+					$deadline = date("Y-m-d", $deadline);		
 					$deadlineURL  = urlencode($deadline);
 					
 					$pic = $row['PicturePath'];
 					$picURL  = urlencode($pic);
 					
 					echo "<tr>";
-					echo "<td>$id</td>";
-					echo "<td>$from</td>";
-					echo "<td>$to</td>";
-					echo "<td>$task</td>";
-					echo "<td>$deadline</td>";
+					echo "<td class=$class>$id</td>";
+					echo "<td class=$class>$from</td>";
+					echo "<td class=$class>$to</td>";
+					echo "<td class=$class>$task</td>";
+					echo "<td class=$class>$deadline</td>";
 					$url = "home.php?taskID=$idURL&taskName=$taskURL&from=$fromURL&to=$toURL&details=$detailsURL&createTime=$createTimeURL&deadline=$deadlineURL&pic=$picURL";
-					echo "<td><a href=$url>Details</a></td>";			
+					echo "<td><a href=$url><button name=\"addTask\">Details</button></a></td>";			
 					
 					echo "</tr>";
 				}
@@ -125,8 +149,8 @@
 		$_SESSION['email'] = $email;
 		$_SESSION['companyName'] = $companyName;
 			
-		if (mysql_error()) {
-			die(mysql_error());
+		if (mysqli_error()) {
+			die(mysqli_error());
 		}
 		header("location: create_task.php");	
 	}
@@ -140,7 +164,7 @@
 		unset($_SESSION['email']);
 		unset($_SESSION['companyName']);
 	   
-	   header('Refresh: 2; URL = index.php');
+	   header('Refresh: 0.1; URL = index.php');
 	}
 	
 	if (isset($_GET['taskID']) 
@@ -159,14 +183,14 @@
 		$_SESSION['lastName'] = $lastName;
 		$_SESSION['email'] = $email;
 		$_SESSION['companyName'] = $companyName;
-		$_SESSION['taskID'] = $_GET['taskID'];
-		$_SESSION['taskName'] = $_GET['taskName'];
-		$_SESSION['fromUser'] = $_GET['from'];
-		$_SESSION['toUser'] = $_GET['to'];
-		$_SESSION['details'] = $_GET['details'];
-		$_SESSION['createTime'] = $_GET['createTime'];
-		$_SESSION['deadline'] = $_GET['deadline'];
-		$_SESSION['pic'] = $_GET['pic'];
+		$_SESSION['taskID'] = urldecode($_GET['taskID']);
+		$_SESSION['taskName'] = urldecode($_GET['taskName']);
+		$_SESSION['fromUser'] = urldecode($_GET['from']);
+		$_SESSION['toUser'] = urldecode($_GET['to']);
+		$_SESSION['details'] = urldecode($_GET['details']);
+		$_SESSION['createTime'] = urldecode($_GET['createTime']);
+		$_SESSION['deadline'] = urldecode($_GET['deadline']);
+		$_SESSION['pic'] = urldecode($_GET['pic']);
 		
 		header("location: EditTodo.php");
 		
