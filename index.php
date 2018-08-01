@@ -34,14 +34,14 @@
 
     <h3>New user?</h3>
     <form method="post">
-        <button type="submit" name="register">Register</button>
+        <button type="submit" name="create">Create Account</button>
     </form>
    
     <h3></h3>
   
 	<?php
 	
-	if(isset($_POST['register'])){
+	if(isset($_POST['create'])){
 		header('location: register.php');
 	}
 	
@@ -55,7 +55,7 @@
 			$pass = $_POST['pwd'];
 			$code = $_POST['code'];
 				
-			$sql = "select * from UserInfo where UserName='$user' AND UserPassword='$pass' AND CompanyCode='$code'";
+			$sql = "select * from UserInfo where UserName='$user' AND binary UserPassword='$pass' AND binary CompanyCode='$code'";
 				            
 			$result = $conn->query($sql);					
 					
