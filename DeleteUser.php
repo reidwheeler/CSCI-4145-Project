@@ -41,12 +41,15 @@ require_once 'dbConfig.php';
         $firstName = $_SESSION['firstName'];
         $lastName = $_SESSION['lastName'];
 
-        $sql = "select Company.UserName, Employee.FirstName, Employee.LastName
-            from Company 
-            INNER JOIN Employee ON Company.UserName=Employee.UserName 
-            where CompanyCode='$code'";
+        $sql = "select UserInfo.UserName, Employee.FirstName, Employee.LastName
+            from UserInfo 
+            INNER JOIN Employee ON UserInfo.UserName=Employee.UserName 
+            where UserInfo.CompanyCode='$code' && Employee.companyCode ='$code'";
         $result = $conn->query($sql);
-
+        if (!$result) {
+            echo "nahh";
+            trigger_error('Invalid query: ' . $conn->error);
+        }
         if ($result->num_rows >= 1){
             while($row = $result->fetch_assoc()) {
                 $username = $row['UserName'];
