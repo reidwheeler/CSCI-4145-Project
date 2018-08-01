@@ -33,7 +33,7 @@
  
 
     <h3>New user?</h3>
-    <form action="http://">
+    <form action="register.php">
         <input type="submit" value="Create account" name="register" />
     </form>
    
@@ -95,7 +95,6 @@
 			}else {
 				echo 'Invalid Username or Password';
 			}
-		   
 	}			
 	
 	?>
