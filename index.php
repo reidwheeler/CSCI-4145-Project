@@ -88,7 +88,7 @@
 				$_SESSION['email'] = $email;
 				$_SESSION['companyName'] = $companyName;
 						
-				if (mysqli_error($_SESSION) {
+				if (mysqli_error($_SESSION)) {
 					die(mysqli_error($_SESSION));
 				}
 				header("location: home.php");	
