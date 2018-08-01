@@ -12,7 +12,7 @@
     </head>
 
     <body>
-        <h2>ToDo Register</h2>
+        <h2>Register for ToDo!</h2>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <h3>First Name</h3>
             <input id="fn" name="fn">
