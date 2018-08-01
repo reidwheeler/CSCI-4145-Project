@@ -58,7 +58,7 @@
             echo "<td>$fn</td>";
             echo "<td>$ln</td>";
             //set the value of the check box to the username
-            echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"</td>';
+            echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
             echo "</tr>";
         }
         echo "</table>";
@@ -128,11 +128,11 @@
                 $insertesult = $conn->query($sql);
                 
             }
-            //insert this user as touser into db
-            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
-            $insertesult = $conn->query($sql);
+            
         }
-
+	//insert this user as touser into db
+        $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
+        $insertesult = $conn->query($sql);
         //return to home page
         header("location: home.php");
     }else{
