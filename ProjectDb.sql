@@ -35,7 +35,7 @@ Detail VARCHAR(255),
 CreateTime datetime,
 Deadline datetime,
 #STORE THE PATH OF A PICTURE
-PicturePath VARCHAR(255)
+PicturePath LONGBLOB
 );
 
 
