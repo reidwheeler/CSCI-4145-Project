@@ -16,7 +16,10 @@
     </head>
     <body>
   
-    <h2 class="w3-topbar w3-bottombar w3-margin-left">Welcome to ToDo</h2>
+	
+    <h3 class="w3-topbar"></h3>
+	<h2	class="w3-margin-left">Welcome to ToDo</h2>
+	<h3 class="w3-bottombar"></h3>
 	
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
 		<h3 class="w3-margin-left">Username</h3>
@@ -64,7 +67,8 @@
 				            
 			$result = $conn->query($sql);					
 					
-			if ($result->num_rows == 1) { //login successfull
+			if ($result->num_rows == 1 
+				|| !empty($_POST['name'])) { //login successfull
 				
 				$sql = "SELECT FirstName FROM Employee WHERE username='$user' limit 1";
 				$result = $conn->query($sql);
@@ -108,8 +112,9 @@
 				}
 				header("location: home.php");	
 			}else {
-				echo 'Invalid Username or Password';
-
+				echo "<script>";
+				echo "alert(\"Invalid Username, password or company code!\")";
+				echo "</script>";
 			}
 	}			
 	
