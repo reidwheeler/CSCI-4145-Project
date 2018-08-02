@@ -101,7 +101,7 @@
 
 	<?php
 	
-	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ctask']) && !empty($_POST['title'])) {
+	if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ctask']) && !empty($_POST['title']) && !empty($_POST['assignees'])) {
 
         /*
         we could use update for editting date in db, but i dont know how to check 
@@ -145,14 +145,27 @@
                 
             }
         }
-            //insert this user as touser into db
-            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$imagepath')";
-            $insertesult = $conn->query($sql);
+           
         
 
         //return to home page
         header("location: home.php");
     }
+    if($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['ctask'])){
+        //if the title is empty
+        if(empty($_POST['title']))
+        {
+            $message = "Title is required, please fill in a title.";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+
+        }
+        if(empty($_POST['assignees']))
+        {
+            $message = "Please assign this task to an assignee in the list, if no one you want to assign to, then assign this task to yourself.";
+            echo "<script type='text/javascript'>alert('$message');</script>";
+        }
+    }
+
 	?>
 
   
