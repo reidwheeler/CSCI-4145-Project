@@ -16,7 +16,7 @@
 
     <body>
 
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
     <h1>Create Task</h1><br>
     <h3>Title:</h3>
     <input type="text" name="title" id="title">
@@ -53,7 +53,7 @@
 
     <br><br>
     <h3>Picture (optional):</h3><br>
-    <input type="file" name="image">
+    <input type="file" name="img">
     <br><br>
     <input type="submit" name="ctask" value="Create Task">
 
@@ -91,23 +91,24 @@
 
             
         }
-        $image=null;
-        //check for image
-        if(isset($_POST['image'])){
-            $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
-        }
+        $tmpimage = $_FILES['img']['tmp_name'];
+        $imagename = $_FILES['img']['name'];
+        $imagepath = "pic/".$imagename;
+
+        //move the image to the pic folder
+        move_uploaded_file($tmpimage, $imagepath);
 
         //for all users who are assgined, insert the data into db
         if(!empty($_POST['assignees'])){
             //get each value of the check box which is the username of that user and insert into db
             foreach($_POST['assignees'] as $tuser){
-                $sql = "INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$tuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
+                $sql = "INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$tuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$imagepath')";
                 $insertesult = $conn->query($sql);
                 
             }
         }
             //insert this user as touser into db
-            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
+            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$imagepath')";
             $insertesult = $conn->query($sql);
         
 
