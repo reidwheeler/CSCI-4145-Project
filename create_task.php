@@ -54,8 +54,8 @@
     ?>
 
     <br><br>
-    <h3>Picture (optional):</h3><br>
-    <input type="file" name="img">
+    <h3>Picture URL (optional):</h3><br>
+    <input type="text" name="img">
     <br><br>
     <input type="submit" name="ctask" value="Create Task">
 
@@ -93,10 +93,18 @@
 
             
         }
-        $tmpimage = $_FILES['img']['tmp_name'];
-        $imagename = $_FILES['img']['name'];
-        $imagepath = "pic/".$imagename;
 
+		$imagepath = $_POST['img'];
+		
+		if(!endsWith($imagepath, ".jpg") 
+			&& !endsWith($imagepath, ".png")
+			&& !endsWith($imagepath, ".jpeg")
+			&& !endsWith($imagepath, ".gif"))
+		{
+			$imagepath = "";
+		}
+			
+		
         //move the image to the pic folder
         move_uploaded_file($tmpimage, $imagepath);
 
@@ -129,6 +137,16 @@
             echo "<script type='text/javascript'>alert('$message');</script>";
         }
     }
+	
+	//Method from https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
+	function endsWith($string, $end)
+	{
+		$length = strlen($end);
+
+		return $length === 0 || 
+		(substr($string, -$length) === $end);
+	}
+	
 	?>
 
   
