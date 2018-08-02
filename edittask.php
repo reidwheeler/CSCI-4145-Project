@@ -79,15 +79,16 @@
     <br><br>
     <h3>Picture (optional):</h3><br>
     <?php 
-    $tid = $_SESSION['taskID'];
-    $displayimg="SELECT * FROM Task WHERE TaskID = '$tid' LIMIT 1";
-    $tmpp=$conn->query($displayimg);
-    
-    $curimg=$tmpp->fetch_array();
-    echo "<img height='300' width='300' src='".$curimg[7]."' >";
+		$tid = $_SESSION['taskID'];
+		$displayimg="SELECT * FROM Task WHERE TaskID = '$tid' LIMIT 1";
+		$tmpp=$conn->query($displayimg);
+		
+		$curimg=$tmpp->fetch_array();
+		echo "<img height='300' width='300' src='".$curimg[7]."' >";
     ?>
     <br><br>
-    <input type="file" name="img">
+	<h4>Picture URL (optional):</h4>
+    <input type="text" name="img" value="<?php echo $curimg[7]; ?>">
     <br><br>
 
     <br><br>
@@ -119,15 +120,19 @@
         //check for new uploading image
 
         if(isset($_POST['img'])){
-            $tmpimage = $_FILES['img']['tmp_name'];
-            $imagename = $_FILES['img']['name'];
-            //$imagetype = $_FILES['image']['type'];
 
-
-            $imagepath = "pic/".$imagename;
-
+			$imagepath = $_POST['img'];
+		
+			if(!endsWith($imagepath, ".jpg") 
+				&& !endsWith($imagepath, ".png")
+				&& !endsWith($imagepath, ".jpeg")
+				&& !endsWith($imagepath, ".gif"))
+			{
+				$imagepath = "";
+			}
+			
             //move the image to the pic folder
-            move_uploaded_file($tmpimage, $imagepath);
+//            move_uploaded_file($tmpimage, $imagepath);
         }
         
        
@@ -165,6 +170,15 @@
             echo "<script type='text/javascript'>alert('$message');</script>";
         }
     }
+	
+	//Method from https://stackoverflow.com/questions/834303/startswith-and-endswith-functions-in-php
+	function endsWith($string, $end)
+	{
+		$length = strlen($end);
+
+		return $length === 0 || 
+		(substr($string, -$length) === $end);
+	}
 
 	?>
 
