@@ -40,12 +40,14 @@
             $ln = $row['LastName'];
             $fn = $row['FirstName'];
             $id = $row['UserName'];
+	    if($id!=$_SESSION['username']){
             echo "<tr>";
             echo "<td>$fn</td>";
             echo "<td>$ln</td>";
             //set the value of the check box to the username
             echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
             echo "</tr>";
+	    }
         }
         echo "</table>";
     }
