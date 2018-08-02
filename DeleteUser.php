@@ -82,8 +82,8 @@ require_once 'dbConfig.php';
 </div>
 <br>
 <?php
-    $url = "home.php";
-    echo"<a href=$url><input type=\"button\" value=\"Return Home\">";
+$url = "home.php";
+echo"<a href=$url><input type=\"button\" value=\"Return Home\">";
 ?>
 
 <?php
@@ -100,9 +100,18 @@ if (isset($_GET['UserName'])
 )
 {
     $userToDelete = $_GET['UserName'];
+
+    
+    //delete the user's tasks from the DB
+    $sql = "DELETE a.* 
+            FROM Task a
+            WHERE a.FromUser = '$userToDelete' OR a.ToUser = '$userToDelete'";
+    $result = $conn->query($sql);
+
+    //delete the user from the DB
     $sql = "DELETE a.*, b.* 
             FROM Employee a 
-            LEFT JOIN Company b 
+            LEFT JOIN UserInfo b 
             ON b.UserName = a.UserName 
             WHERE a.UserName = '$userToDelete'";
     $result = $conn->query($sql);
