@@ -58,6 +58,7 @@
 			echo "<th>Task</th>";
 			echo "<th>Due Date</th>";
 			echo "<th></th>";
+            echo "<th></th>";
 			echo "</tr>";
 			
 			if ($result->num_rows >= 1){
@@ -106,7 +107,15 @@
 					echo "<td class=$class>$task</td>";
 					echo "<td class=$class>$deadline</td>";
 					$url = "home.php?taskID=$idURL&taskName=$taskURL&from=$fromURL&to=$toURL&details=$detailsURL&createTime=$createTimeURL&deadline=$deadlineURL&pic=$picURL";
-					echo "<td><a href=$url><button name=\"addTask\">Details</button></a></td>";			
+					echo "<td><a href=$url><button name=\"addTask\">Details</button></a></td>";
+					if($_SESSION['username'] == $from){
+                        $deleteTaskID = urlencode($id);
+                        $url = "home.php?deleteTaskID=$deleteTaskID";
+                        echo "<td><a href=$url><button name=\"deleteTask\">Delete</button></a></td>";
+                    }
+                    else{
+                        echo "<td></td>";
+                    }
 					
 					echo "</tr>";
 				}
@@ -201,6 +210,15 @@
 		header("location: edittask.php");
 		
 	}
+	if (isset($_GET['deleteTaskID'])){
+        $taskToDelete = $_GET['deleteTaskID'];
+        //delete the task from the DB
+        $sql = "DELETE a.* 
+            FROM Task a
+            WHERE a.TaskID='$taskToDelete'";
+        $result = $conn->query($sql);
+        header("location: home.php");
+    }
 	
 	?>
 	
