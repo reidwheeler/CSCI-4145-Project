@@ -43,7 +43,7 @@
         $result = $conn->query($sql);
 
         if ($result->num_rows >= 1){
-            echo "<table class=\"w3-margin-left\">";
+            echo "<table class=\"w3-margin-left w3-border\">";
             while($row = $result->fetch_assoc()){
                 $ln = $row['LastName'];
                 $fn = $row['FirstName'];
