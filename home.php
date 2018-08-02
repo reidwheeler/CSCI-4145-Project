@@ -3,6 +3,7 @@
 <?php
 	// Initialize the session
 	session_start();
+	ob_start();
 	if(!isset($_SESSION['username']) || empty($_SESSION['username'])
 		|| empty($_SESSION['lastName']) || !isset($_SESSION['lastName'])
 		|| empty($_SESSION['code']) || !isset($_SESSION['code'])
@@ -39,7 +40,7 @@
 	<h3>Task List</h3>
 
 	<div>
-		<?php
+<?php
 			$user = $_SESSION['username'];
 			$code = $_SESSION['code'];
 			$firstName = $_SESSION['firstName'];
@@ -121,8 +122,7 @@
 				}
 			}
 			echo "</table>";
-		
-		?>
+?>
 	</div>
 	
 	<br/>
@@ -154,7 +154,6 @@
 	$companyName = $_SESSION['companyName'];
 	
 	if (isset($_POST['addTask'])){
-		session_start();
 		
 		$_SESSION['username'] = $user;
 		$_SESSION['code'] = $code;
@@ -167,6 +166,7 @@
         die(mysqli_error($_SESSION));
     }
 
+		sleep(1);
 		header("location: create_task.php");	
 	}
 	
