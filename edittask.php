@@ -26,10 +26,7 @@
     <h3>Description:</h3>
     <textarea rows="4" cols="50" name="description" id="description" ><?php echo htmlspecialchars($_SESSION['details']); ?></textarea>
     <br><br>
-    <h3>Due Date:</h3>
-
-    <!--show due date  ps: still cannot show the due date-->
-    
+    <h3>Due Date:</h3>    
     
     <input type="datetime-local" name="dueDate" id="dueDate"
      value="<?php 
@@ -77,23 +74,21 @@
         echo "</table>";
     }
     
-    $tm=$conn->query("SELECT * FROM Task WHERE TaskID='$tmpid'");
-    while($roww=$tm->fetch_array()){
-        $tt=(str_replace(" ", "T" ,$roww[6]));
-    }
-    
     ?>
 
     <br><br>
     <h3>Picture (optional):</h3><br>
-    <input type="file" name="image">
-    <br><br>
-
-    <?php
-
-    echo '<img height="300" width="300" src="data:image;base64,'.$_SESSION['pic'].' "> ';
-
+    <?php 
+    $tid = $_SESSION['taskID'];
+    $displayimg="SELECT * FROM Task WHERE TaskID = '$tid' LIMIT 1";
+    $tmpp=$conn->query($displayimg);
+    
+    $curimg=$tmpp->fetch_array();
+    echo "<img height='300' width='300' src='".$curimg[7]."' >";
     ?>
+    <br><br>
+    <input type="file" name="img">
+    <br><br>
 
     <br><br>
     <input type="submit" name="ctask" value="Done">
@@ -120,12 +115,22 @@
         $ctime = $_SESSION['createTime'];
         $tskid = $_SESSION['taskID'];
         $dtime = $_POST['dueDate'];
-        $image = $_SESSION['pic'];
-        //check for image
-        if(isset($_POST['image'])){
-            $image = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+        $imagepath = $_SESSION['pic'];
+        //check for new uploading image
 
+        if(isset($_POST['img'])){
+            $tmpimage = $_FILES['img']['tmp_name'];
+            $imagename = $_FILES['img']['name'];
+            //$imagetype = $_FILES['image']['type'];
+
+
+            $imagepath = "pic/".$imagename;
+
+            //move the image to the pic folder
+            move_uploaded_file($tmpimage, $imagepath);
         }
+        
+       
 
         //remove all record given the task id
         $droprecord = "DELETE FROM Task WHERE TaskID='$tskid'";
@@ -135,13 +140,13 @@
         if(!empty($_POST['assignees'])){
             //get each value of the check box which is the username of that user and insert into db
             foreach($_POST['assignees'] as $tuser){
-                $sql = "INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$tuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
+                $sql = "INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$tuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$imagepath')";
                 $insertesult = $conn->query($sql);
                 
             }
         }
             //insert this user as touser into db
-            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$image')";
+            $sql="INSERT INTO Task VALUES('$tskid' ,'$fuser' ,'$fuser' ,'$title' ,'$detail' ,'$ctime' ,'$dtime' ,'$imagepath')";
             $insertesult = $conn->query($sql);
         
 
