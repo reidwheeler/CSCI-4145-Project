@@ -81,6 +81,10 @@ require_once 'dbConfig.php';
 <br>
 </div>
 <br>
+<?php
+    $url = "home.php";
+    echo"<a href=$url><input type=\"button\" value=\"Return Home\">";
+?>
 
 <?php
 $user = $_SESSION['username'];
