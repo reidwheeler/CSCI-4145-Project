@@ -19,6 +19,8 @@
 
 <html lang="en">
 <head>
+
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <meta charset="UTF-8">
     <title>Home</title>
 	
@@ -34,10 +36,11 @@
 	
 </head>
 <body>
-    <h3>Company <?php echo htmlspecialchars($_SESSION['companyName']); ?></h3>
-    <h1 id="homeTitle">Welcome to ToDo, <?php echo htmlspecialchars($_SESSION['firstName'])?> <?php echo htmlspecialchars($_SESSION['lastName']); ?>! </h1>
-	
-	<h3>Task List</h3>
+	<h3 class="w3-topbar"></h3>
+    <h3 class="w3-margin-left">Company <?php echo htmlspecialchars($_SESSION['companyName']); ?></h3>
+    <h3 class="w3-bottombar"></h3>
+	<h1 id="homeTitle" class="w3-panel" color="#ccc">Welcome to ToDo, <?php echo htmlspecialchars($_SESSION['firstName'])?> <?php echo htmlspecialchars($_SESSION['lastName']); ?>! </h1>
+	<h3 class="w3-panel w3-green">Task List</h3>
 
 	<div>
 <?php
@@ -51,7 +54,7 @@
 			$sql = "select * from Task where FromUser='$user' OR ToUser='$user'";
 			$result = $conn->query($sql);
 			
-			echo "<table>";
+			echo "<table class=\"w3-table w3-bordered w3-striped\">";
 			echo "<tr>";
 			echo "<th>Task ID</th>";
 			echo "<th>From</th>";
@@ -108,11 +111,11 @@
 					echo "<td class=$class>$task</td>";
 					echo "<td class=$class>$deadline</td>";
 					$url = "home.php?taskID=$idURL&taskName=$taskURL&from=$fromURL&to=$toURL&details=$detailsURL&createTime=$createTimeURL&deadline=$deadlineURL&pic=$picURL";
-					echo "<td><a href=$url><button name=\"addTask\">Details</button></a></td>";
+					echo "<td><a href=$url><button class = \"w3-button w3-round w3-black\" name=\"addTask\">Details</button></a></td>";
 					if($_SESSION['username'] == $from){
                         $deleteTaskID = urlencode($id);
                         $url = "home.php?deleteTaskID=$deleteTaskID";
-                        echo "<td><a href=$url><button name=\"deleteTask\">Delete</button></a></td>";
+                        echo "<td><a href=$url><button class = \"w3-button w3-round w3-black\" name=\"deleteTask\">Delete</button></a></td>";
                     }
                     else{
                         echo "<td></td>";
@@ -128,13 +131,13 @@
 	<br/>
 	
 	<form method="post">
-		<button name="addTask">+</button>
+		<button name="addTask" class = "w3-circle w3-button w3-black w3-margin-left">+</button>
 	</form>
 	
 	<br/>
 	
 	<form method="post">
-		<button name="logout">Logout</button>
+		<button name="logout" class = " w3-margin-left w3-button w3-black">Logout</button>
 	</form>
 
     <?php

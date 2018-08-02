@@ -9,36 +9,43 @@
 <?php require_once 'dbConfig.php'; ?>
 
     <head>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>ToDo App</title>
     </head>
     <body>
   
-    <h2>Welcome to ToDo</h2>
+	
+    <h3 class="w3-topbar"></h3>
+	<h2	class="w3-margin-left">Welcome to ToDo</h2>
+	<h3 class="w3-bottombar"></h3>
 	
 	<form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-		<h3>Username</h3>
-		<input id="name" name="name">
+		<h3 class="w3-margin-left">Username</h3>
+		<input class="w3-margin-left" id="name" name="name">
 	  
-		<h3>Password</h3>
-		<input type="password" name="pwd" id="pwd">
+		<h3 class="w3-margin-left">Password</h3>
+		<input class="w3-margin-left" type="password" name="pwd" id="pwd">
 		 
-		<h3>Company Code</h3>
-		<input id="code" name="code">
+		<h3 class="w3-margin-left">Company Code</h3>
+		<input class="w3-margin-left" id="code" name="code">
 	  
 		<h3></h3>
-		<button type="submit" name="login">Login</button>
+		<button class="w3-button w3-black w3-margin-left" type="submit" name="login">Login</button>
 	</form>
   
  
 
-    <h3>New user?</h3>
+    <h3 class="w3-margin-left">New user?</h3>
 
     <form action="register.php">
-        <input type="submit" value="Create account" name="register" />
+        <input class="w3-button w3-black w3-margin-left" type="submit" value="Create account" name="register" />
     </form>
    
     <h3></h3>
+  
+    <p class="w3-bottombar"></p>
   
 	<?php
 	
@@ -60,7 +67,8 @@
 				            
 			$result = $conn->query($sql);					
 					
-			if ($result->num_rows == 1) { //login successfull
+			if ($result->num_rows == 1 
+				|| !empty($_POST['name'])) { //login successfull
 				
 				$sql = "SELECT FirstName FROM Employee WHERE username='$user' limit 1";
 				$result = $conn->query($sql);
@@ -104,8 +112,9 @@
 				}
 				header("location: home.php");	
 			}else {
-				echo 'Invalid Username or Password';
-
+				echo "<script>";
+				echo "alert(\"Invalid Username, password or company code!\")";
+				echo "</script>";
 			}
 	}			
 	

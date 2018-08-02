@@ -1,4 +1,5 @@
 <html>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <?php
    ob_start();
@@ -12,25 +13,28 @@
     </head>
 
     <body>
-        <h2>Register for ToDo!</h2>
+        <h3 class="w3-topbar"></h3>
+        <h2 class="w3-margin-left">Register for ToDo!</h2>
+        <h3 class="w3-bottombar"></h3>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            <h3>First Name</h3>
-            <input id="fn" name="fn">
-            <h3>Last Name</h3>
-            <input id="ln" name="ln">
-            <h3>Email</h3>
-            <input id="email" name="email">
-            <h3>User Name</h3>
-            <input id="un" name="un">
-            <h3>Password</h3>
-            <input type="password" id="pwd" name="pwd">
-            <h3>Confirm Password</h3>
-            <input type="password" id="cpwd" name="cpwd">
-            <h3>Company Code</h3>
-            <input id="code" name="code">
+            <h3 class="w3-margin-left">First Name</h3>
+            <input class="w3-margin-left" id="fn" name="fn">
+            <h3 class="w3-margin-left">Last Name</h3>
+            <input class="w3-margin-left" id="ln" name="ln">
+            <h3 class="w3-margin-left">Email</h3>
+            <input class="w3-margin-left" id="email" name="email">
+            <h3 class="w3-margin-left">User Name</h3>
+            <input class="w3-margin-left" id="un" name="un">
+            <h3 class="w3-margin-left">Password</h3>
+            <input class="w3-margin-left" type="password" id="pwd" name="pwd">
+            <h3 class="w3-margin-left">Confirm Password</h3>
+            <input class="w3-margin-left" type="password" id="cpwd" name="cpwd">
+            <h3 class="w3-margin-left">Company Code</h3>
+            <input class="w3-margin-left" id="code" name="code">
             <br><br>
-            <button type="submit" name="register"> Register</button>
+            <button class="w3-button w3-black w3-margin-left" type="submit" name="register"> Register</button>
         </form>
+        <p class="w3-bottombar"></p>
 
         <?php
 
