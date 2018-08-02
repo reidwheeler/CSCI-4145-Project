@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <html>
 
@@ -16,88 +15,74 @@
     </head>
 
     <body>
-
+    <h3 class="w3-topbar"></h3>
+    <h2 class="w3-margin-left">Edit Task</h2>
+    <h3 class="w3-bottombar"></h3>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-    <h1>Edit Task</h1><br>
-    <h3>Title:</h3>
-    <!--show the current title, description and due date for this task in the type field-->
-    <input type="text" name="title" id="title" value= "<?php echo htmlspecialchars($_SESSION['taskName']); ?>" />
-    <br><br>
-    <h3>Description:</h3>
-    <textarea rows="4" cols="50" name="description" id="description" ><?php echo htmlspecialchars($_SESSION['details']); ?></textarea>
-    <br><br>
-    <h3>Due Date:</h3>    
-    
-    <input type="datetime-local" name="dueDate" id="dueDate"
-     value="<?php 
-     $tid = $_SESSION['taskID'];
-     $sqq="SELECT * FROM Task WHERE TaskID = '$tid'";
-     $tm=$conn->query($sqq);
-    while($roww=$tm->fetch_array()){
-        $tt=str_replace(" ", "T" ,$roww[6]);
-    }echo htmlspecialchars($tt)?>">
-                    
+        <h3 class="w3-margin-left">Title</h3>
+        <!--show the current title, description and due date for this task in the type field-->
+        <input class="w3-margin-left" type="text" name="title" id="title" value= "<?php echo htmlspecialchars($_SESSION['taskName']); ?>" />
+        <br><br>
+        <h3 class="w3-margin-left">Description</h3>
+        <textarea class="w3-margin-left" rows="4" cols="50" name="description" id="description" ><?php echo htmlspecialchars($_SESSION['details']); ?></textarea>
+        <br><br>
+        <h3 class="w3-margin-left">Due Date</h3>
+        <input class="w3-margin-left" type="datetime-local" name="dueDate" id="dueDate"
+         value="<?php
+         $tid = $_SESSION['taskID'];
+         $sqq="SELECT * FROM Task WHERE TaskID = '$tid'";
+         $tm=$conn->query($sqq);
+        while($roww=$tm->fetch_array()){
+            $tt=str_replace(" ", "T" ,$roww[6]);
+        }echo htmlspecialchars($tt)?>">
+        <br><br>
+        <h3 class="w3-margin-left">Assignees</h3>
+        <?php
+        $ccode = $_SESSION['code'];
+        $sql = "SELECT * FROM Employee WHERE CompanyCode = '$ccode'";
+        $result = $conn->query($sql);
 
-    <br><br>
+        if ($result->num_rows >= 1){
+            echo "<table class=\"w3-margin-left\">";
+            while($row = $result->fetch_assoc()){
+                $ln = $row['LastName'];
+                $fn = $row['FirstName'];
+                $id = $row['UserName'];
+                echo "<tr>";
+                echo "<td>$fn</td>";
+                echo "<td>$ln</td>";
+                //set the check box to checked state for users who are assgined by this task
+                $tmpid=$_SESSION['taskID'];
+                $tmpsql= "SELECT * FROM Task WHERE ToUser='$id' AND TaskID='$tmpid'";
+                $tmpresult = $conn->query($tmpsql);
+                if($tmpresult->num_rows >= 1){
+                    echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]" checked></td>';
+                }else{
+                    echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
+                }
 
-    
-    
-
-
-    <h3>Assignees (optional):</h3><br>
-    <?php
-    $ccode = $_SESSION['code'];
-    $sql = "SELECT * FROM Employee WHERE CompanyCode = '$ccode'";
-    $result = $conn->query($sql);
-    
-    if ($result->num_rows >= 1){
-        echo "<table>";
-        while($row = $result->fetch_assoc()){
-            $ln = $row['LastName'];
-            $fn = $row['FirstName'];
-            $id = $row['UserName'];
-            echo "<tr>";
-            echo "<td>$fn</td>";
-            echo "<td>$ln</td>";
-            //set the check box to checked state for users who are assgined by this task
-            $tmpid=$_SESSION['taskID'];
-            $tmpsql= "SELECT * FROM Task WHERE ToUser='$id' AND TaskID='$tmpid'";
-            $tmpresult = $conn->query($tmpsql);
-            if($tmpresult->num_rows >= 1){
-                echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]" checked></td>';
-            }else{
-                echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
+                echo "</tr>";
             }
-
-            echo "</tr>";
+            echo "</table>";
         }
-        echo "</table>";
-    }
-    
-    ?>
+        ?>
+        <br>
+        <h3 class="w3-margin-left">Picture</h3>
+        <?php
+            $tid = $_SESSION['taskID'];
+            $displayimg="SELECT * FROM Task WHERE TaskID = '$tid' LIMIT 1";
+            $tmpp=$conn->query($displayimg);
 
-    <br><br>
-    <h3>Picture (optional):</h3><br>
-    <?php 
-		$tid = $_SESSION['taskID'];
-		$displayimg="SELECT * FROM Task WHERE TaskID = '$tid' LIMIT 1";
-		$tmpp=$conn->query($displayimg);
-		
-		$curimg=$tmpp->fetch_array();
-		echo "<img height='300' width='300' src='".$curimg[7]."' >";
-    ?>
-    <br><br>
-	<h4>Picture URL (optional):</h4>
-    <input type="text" name="img" value="<?php echo $curimg[7]; ?>">
-    <br><br>
+            $curimg=$tmpp->fetch_array();
+            echo "<img class=\"w3-margin-left\" height='300' width='300' src='".$curimg[7]."' >";
+        ?>
+        <br><br>
+        <h4 class="w3-margin-left">Picture URL (optional)</h4>
+        <input class="w3-margin-left" type="text" name="img" value="<?php echo $curimg[7]; ?>">
+        <br><br>
 
-    <br><br>
-    <input type="submit" name="ctask" value="Done">
-
-
-
-
-
+        <br><br>
+        <input class="w3-button w3-black w3-margin-left" type="submit" name="ctask" value="Done">
     </form>
 
 	<?php
@@ -181,8 +166,5 @@
 	}
 
 	?>
-
-  
-  
     </body>
 </html>
