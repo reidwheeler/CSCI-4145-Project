@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <?php
 // Initialize the session
 session_start();
@@ -24,7 +24,9 @@ require_once 'dbConfig.php';
     <title>Delete User</title>
 </head>
 <body>
-<h3>Users In <?php echo htmlspecialchars($_SESSION['companyName']); ?>'s System</h3>
+<h3 class="w3-topbar"></h3>
+<h2 class="w3-margin-left">Users In <?php echo htmlspecialchars($_SESSION['companyName']); ?>'s System</h2>
+<h3 class="w3-bottombar"></h3>
 <br>
 
 <table id="userTable">
@@ -72,7 +74,7 @@ require_once 'dbConfig.php';
                 echo "<td>$firstname</td>";
                 echo "<td>$lastname</td>";
                 $url = "DeleteUser.php?UserName=$usernameURL&FirstName=$firstnameURL&LastName=$lastnameURL";
-                echo "<td><a href=$url><input type=\"button\" value=\"Delete\"></a></td>";
+                echo "<td><a href=$url><input class=\"w3-button w3-red w3-margin-left\" type=\"button\" value=\"Delete This User\"></a></td>";
                 echo "</tr>";
             }
         }
@@ -83,7 +85,7 @@ require_once 'dbConfig.php';
 <br>
 <?php
 $url = "home.php";
-echo"<a href=$url><input type=\"button\" value=\"Return Home\">";
+echo"<a href=$url><input class=\"w3-button w3-black w3-margin-left\"type=\"button\" value=\"Return Home\">";
 ?>
 
 <?php
