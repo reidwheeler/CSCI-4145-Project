@@ -28,8 +28,7 @@ require_once 'dbConfig.php';
 <h2 class="w3-margin-left">Users In <?php echo htmlspecialchars($_SESSION['companyName']); ?>'s System</h2>
 <h3 class="w3-bottombar"></h3>
 <br>
-
-<table id="userTable">
+<table class ="w3-table w3-bordered w3-striped" id="userTable">
     <tr>
         <th>Username</th>
         <th>First Name</th>
