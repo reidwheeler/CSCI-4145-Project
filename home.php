@@ -143,7 +143,8 @@
     <?php
         if($_SESSION['isAdmin'] == true){
             $url = "DeleteUser.php?";
-            echo "<a href=$url><input type=\"button\" value=\"Go To 'Delete Users' Screen\"></a>";
+			echo "<br/>";
+            echo "<a href=$url><input class = \" w3-margin-left w3-button w3-black\" type=\"button\" value=\"Delete Users\"></a>";
         }
     ?>
 	
@@ -224,6 +225,7 @@
     }
 	
 	?>
+	<p class="w3-bottombar"></p>
 	
 	
 	

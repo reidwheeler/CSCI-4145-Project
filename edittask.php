@@ -77,11 +77,10 @@
             echo "<img class=\"w3-margin-left\" height='300' width='300' src='".$curimg[7]."' >";
         ?>
         <br><br>
-        <h4 class="w3-margin-left">Picture URL (optional)</h4>
+        <h3 class="w3-margin-left">Picture URL (optional)</h3>
         <input class="w3-margin-left" type="text" name="img" value="<?php echo $curimg[7]; ?>">
         <br><br>
 
-        <br><br>
         <input class="w3-button w3-black w3-margin-left" type="submit" name="ctask" value="Done">
     </form>
 

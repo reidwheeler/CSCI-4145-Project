@@ -73,7 +73,7 @@ require_once 'dbConfig.php';
                 echo "<td>$firstname</td>";
                 echo "<td>$lastname</td>";
                 $url = "DeleteUser.php?UserName=$usernameURL&FirstName=$firstnameURL&LastName=$lastnameURL";
-                echo "<td><a href=$url><input class=\"w3-button w3-red w3-margin-left\" type=\"button\" value=\"Delete This User\"></a></td>";
+                echo "<td><a href=$url><input class=\"w3-button w3-red\" type=\"button\" value=\"Delete This User\"></a></td>";
                 echo "</tr>";
             }
         }
@@ -119,6 +119,8 @@ if (isset($_GET['UserName'])
     header("location: DeleteUser.php");
 }
 ?>
+
+<p class="w3-bottombar"></p>
 
 </body>
 </html>

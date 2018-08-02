@@ -1,16 +1,5 @@
 <!DOCTYPE html>
 
-<style>
-input[type=checkbox]
-{
-  /* Double-sized Checkboxes */
-  -ms-transform: scale(2); /* IE */
-  -moz-transform: scale(2); /* FF */
-  -webkit-transform: scale(2); /* Safari and Chrome */
-  -o-transform: scale(2); /* Opera */
-  padding: 10px;
-}
-</style>
 
 <html>
 
@@ -30,38 +19,38 @@ input[type=checkbox]
     <body>
 	    
     <h3 class="w3-topbar"></h3>
-    <h1	class="w3-margin-left">Create a Task</h2>
+    <h2 class="w3-margin-left">Create a Task</h2>
     <h3 class="w3-bottombar"></h3>
 	    
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" enctype="multipart/form-data">
-    <h3 class="w3-margin-left">Title:</h3>
+    <h3 class="w3-margin-left">Title</h3>
     <input class="w3-margin-left" type="text" name="title" id="title">
     <br><br>
-    <h3 class="w3-margin-left">Description:</h3>
+    <h3 class="w3-margin-left">Description</h3>
     <textarea class="w3-margin-left" rows="4" cols="50" name="description" id="description"></textarea>
     <br><br>
-    <h3 class="w3-margin-left">Due Date:</h3>
+    <h3 class="w3-margin-left">Due Date</h3>
     <input class="w3-margin-left" type="datetime-local" name="dueDate" id="dueDate" value="2018-07-31T19:30" min="2018-07-31T01:59" max="2118-12-31T23:59">
     <br><br>
     
-    <h3 class="w3-margin-left">Assignees (optional):</h3><br>
+    <h3 class="w3-margin-left">Assignees</h3>
     <?php
     $ccode = $_SESSION['code'];
     $sql = "SELECT * FROM Employee WHERE CompanyCode = '$ccode'";
     $result = $conn->query($sql);
 
     if ($result->num_rows >= 1){
-        echo "<table>";
+        echo "<table  class=\"w3-margin-left w3-border\">";
         while($row = $result->fetch_assoc()){
             $ln = $row['LastName'];
             $fn = $row['FirstName'];
             $id = $row['UserName'];
 	    //if($id!=$_SESSION['username']){
             echo "<tr>";
-            echo "<td><h3 class='w3-margin-left'>$fn</h3></td>";
-            echo "<td><h3 class='w3-margin-left'>$ln</h3></td>";
+            echo "<td>$fn</td>";
+            echo "<td>$ln</td>";
             //set the value of the check box to the username
-            echo '<td><input class="w3-margin-left" type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
+            echo '<td><input type="checkbox" value = "'.$id.'" name = "assignees[]"></td>';
             echo "</tr>";
 	    //}
         }
@@ -69,8 +58,8 @@ input[type=checkbox]
     }
     ?>
 
-    <br><br>
-    <h3 class="w3-margin-left">Picture URL (optional):</h3><br>
+    <br>
+    <h3 class="w3-margin-left">Picture URL (optional):</h3>
     <input class="w3-margin-left" type="text" name="img">
     <br><br>
     <input class="w3-button w3-black w3-margin-left" type="submit" name="ctask" value="Create Task">

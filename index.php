@@ -53,8 +53,8 @@
 		header('location: register.php');
 	}
 	
-	if ($_SERVER["REQUEST_METHOD"] == "POST"
-		   && isset($_POST['login']) 
+	if ($_SERVER["REQUEST_METHOD"] == "POST"){
+		if(isset($_POST['login']) 
 		   && !empty($_POST['name']) 
            && !empty($_POST['pwd']) 
 		   && !empty($_POST['code'])) {					
@@ -67,8 +67,7 @@
 				            
 			$result = $conn->query($sql);					
 					
-			if ($result->num_rows == 1 
-				|| !empty($_POST['name'])) { //login successfull
+			if ($result->num_rows == 1) { //login successfull
 				
 				$sql = "SELECT FirstName FROM Employee WHERE username='$user' limit 1";
 				$result = $conn->query($sql);
@@ -111,11 +110,18 @@
 					die(mysqli_error($_SESSION));
 				}
 				header("location: home.php");	
+				
 			}else {
 				echo "<script>";
 				echo "alert(\"Invalid Username, password or company code!\")";
 				echo "</script>";
 			}
+			
+		   }else {
+				echo "<script>";
+				echo "alert(\"Invalid Username, password or company code!\")";
+				echo "</script>";
+		   }
 	}			
 	
 	?>
